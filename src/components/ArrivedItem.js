@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import React from 'react';
 
 function numberFormat(price) {
     const currency = Intl.NumberFormat("id-ID", {
@@ -9,11 +10,28 @@ function numberFormat(price) {
     return currency.format(price);
 }
 
-function ArrivedItem({item}) {
+function ArrivedItem({item, url}) {
+  //console.log(`url`, url);
+
+  const [pokemonData, setPokemonData] = React.useState([]);
+  const [pokemonImg, setPokemonImg] = React.useState([]);
+
+  React.useEffect(function() {
+    (async function() {
+      const response = await fetch(`${url}`);
+      const data = await response.json();
+      //const { nodes } = await response.json();
+      //console.log(data.results)
+      
+      setPokemonData(data);
+      setPokemonImg(data.sprites);
+    })();
+  }, []);
+
     return (
         <div className="px-4 relative card group">
               <div
-                className="rounded-xl overflow-hidden card-shadow relative"
+                className="rounded-xl overflow-hidden card-shadow relative border"
                 style={{width: '287px', height: '386px'}}
               >
               <div
@@ -40,14 +58,14 @@ function ArrivedItem({item}) {
                 </div>
               </div>
               <img
-                src={item.image1}
+              //pokemonData.sprites.front_default
+                src={pokemonImg.front_default}
                 alt=""
                 className="w-full h-full object-cover object-center"
               />
             </div>
-            <h5 className="text-lg font-semibold mt-4">{item.name}</h5>
-            <span className="">{numberFormat(item.price)}</span>
-            <Link to={{pathname: `/details/${item.id}`, state: item}} className="stretched-link">
+            <h5 className="text-lg font-semibold mt-4">{item}</h5>
+            <Link to={{pathname: `/details/${pokemonData.id}`, state: pokemonData}} className="stretched-link">
               
             </Link>
           </div>

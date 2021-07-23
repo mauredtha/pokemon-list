@@ -9,7 +9,7 @@ function Breadcrumb() {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <a href="/">Office Room</a>
+                        <a href="/">Pokemon List</a>
                     </li>
                     <li>
                         <a href="/" aria-label="current-page">Details</a>
